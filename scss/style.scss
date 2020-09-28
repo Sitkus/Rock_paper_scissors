@@ -1,0 +1,249 @@
+@use 'colors' as *;
+
+/*------------------------------------*\
+  Default settings
+\*------------------------------------*/
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: #f9f9f9;
+  color: $black;
+  font-size: 10px;
+  font-family: 'Halcyon', sans-serif;
+}
+
+body {
+  font-size: 1.4rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: $black;
+  background-color: $yellow;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 5rem;
+  font-weight: 300;
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/*------------------------------------*\
+  Rest of the code
+\*------------------------------------*/
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12rem;
+  filter: blur(0);
+  transition: 200ms filter ease-in-out;
+}
+
+.game {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60rem;
+  margin-bottom: 5rem;
+
+  &__img {
+    background-color: #ccc;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 10px;
+  }
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  margin: 0 2.5rem;
+
+  &__versus {
+    margin: 0 2.5rem;
+  }
+
+  &__side {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.choose {
+  display: flex;
+  margin-bottom: 5rem;
+
+  &__item {
+    border-radius: 10px;
+    background-color: #ccc;
+    width: 10rem;
+    height: 10rem;
+    margin-right: 5rem;
+    transform: scale(1);
+    transition: 100ms transform ease-in-out;
+    cursor: pointer;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(1);
+    }
+  }
+
+  &__item--rock {
+    left: 0px;
+    background: url('../images/rock_paper_scissors.png') -42px -68px;
+    background-size: 480px;
+  }
+
+  &__item--paper {
+    left: 0px;
+    background: url('../images/rock_paper_scissors.png') -190px -65px;
+    background-size: 480px;
+  }
+
+  &__item--scissors {
+    left: 0px;
+    background: url('../images/rock_paper_scissors.png') -333px -65px;
+    background-size: 480px;
+  }
+}
+
+.joke {
+  background-color: white;
+  width: 50rem;
+  padding: 4rem;
+
+  &__insert {
+    display: none;
+    margin-top: 1.5rem;
+    font-size: 1.7rem;
+  }
+
+  &__success {
+    color: green;
+  }
+
+  &__failed {
+    color: red;
+  }
+}
+
+.rock {
+  left: 0px;
+  background: url('../images/rock_paper_scissors.png') -80px -132px;
+  background-size: 950px;
+}
+
+.paper {
+  left: 0px;
+  background: url('../images/rock_paper_scissors.png') -370px -126px;
+  background-size: 950px;
+}
+
+.scissors {
+  left: 0px;
+  background: url('../images/rock_paper_scissors.png') -657px -126px;
+  background-size: 950px;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  width: 100%;
+  transition: transform 300ms ease-in-out;
+  transform: scale(0);
+
+  &__box {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: white;
+    width: 450px;
+    padding: 5rem;
+  }
+
+  &__question {
+    flex: 0 0 100%;
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 3rem;
+  }
+
+  &__btn {
+    border: none;
+    outline: none;
+    width: 15rem;
+    height: 6rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $black;
+      color: white;
+    }
+
+    &:active {
+      outline: 5px solid $yellow;
+    }
+  }
+
+  &__btn--yes:hover {
+    background-color: green;
+  }
+
+  &__btn--no:hover {
+    background-color: #ba0e19;
+  }
+}
+
+.active.modal {
+  transform: scale(1);
+}
+
+.draw {
+  display: none;
+  position: fixed;
+  top: 6rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.display {
+  display: block;
+}
