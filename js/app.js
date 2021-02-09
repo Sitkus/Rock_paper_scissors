@@ -13,7 +13,6 @@ const choices = [
   }
 ];
 
-// Variables
 const main = document.querySelector('.main');
 const choicePlayer = document.querySelector('.game__img--left');
 const choiceComputer = document.querySelector('.game__img--right');
@@ -24,22 +23,20 @@ const jokeContainer = document.querySelector('.joke');
 const jokeMsg = document.querySelector('.joke__winmsg');
 const chuckJoke = document.querySelector('.joke__insert');
 const drawMsg = document.querySelector('.draw');
+
 const min = 0;
 const max = choices.length;
 let playerTotal = 0;
 let computerTotal = 0;
 
-// Event listeners
-function addBtnEvent() {
-  choose.forEach(btn => {
+function addButtonEvent() {
+  choose.forEach((btn) => {
     btn.addEventListener('click', playerChoice);
   });
 }
 
-// Calling functions
-addBtnEvent();
+addButtonEvent();
 
-// Person making a decision
 function playerChoice(e) {
   clearChoices();
 
@@ -55,36 +52,36 @@ function playerChoice(e) {
   checkRound();
 }
 
-// Player choice registered
 function playerChoiceMade(className) {
   choicePlayer.classList.add(className);
 }
 
-// Computer random choice made
 function computerChoice() {
   const random = Math.floor(Math.random() * max);
 
   choiceComputer.classList.add(choices[random].className);
 }
 
-// Clearing all choices
 function clearChoices() {
   choicePlayer.classList.remove('rock', 'paper', 'scissors');
   choiceComputer.classList.remove('rock', 'paper', 'scissors');
 }
 
-// Check who wins one round: Computer or Person
 function checkRound() {
-  if (checkChoices(choicePlayer, 'rock') && checkChoices(choiceComputer, 'paper') ||
-      checkChoices(choiceComputer, 'rock') && checkChoices(choicePlayer, 'scissors') ||
-      checkChoices(choicePlayer, 'paper') && checkChoices(choiceComputer, 'scissors')) {
+  if (
+    (checkChoices(choicePlayer, 'rock') && checkChoices(choiceComputer, 'paper')) ||
+    (checkChoices(choiceComputer, 'rock') && checkChoices(choicePlayer, 'scissors')) ||
+    (checkChoices(choicePlayer, 'paper') && checkChoices(choiceComputer, 'scissors'))
+  ) {
     computerTotal++;
     checkWhoWon();
 
     return setScore(computerResult, computerTotal);
-  } else if (checkChoices(choiceComputer, 'rock') && checkChoices(choicePlayer, 'paper') ||
-            checkChoices(choiceComputer, 'paper') && checkChoices(choicePlayer, 'scissors') ||
-            checkChoices(choicePlayer, 'rock') && checkChoices(choiceComputer, 'scissors')) {
+  } else if (
+    (checkChoices(choiceComputer, 'rock') && checkChoices(choicePlayer, 'paper')) ||
+    (checkChoices(choiceComputer, 'paper') && checkChoices(choicePlayer, 'scissors')) ||
+    (checkChoices(choicePlayer, 'rock') && checkChoices(choiceComputer, 'scissors'))
+  ) {
     playerTotal++;
     checkWhoWon();
 
@@ -96,7 +93,10 @@ function checkRound() {
   }
 }
 
-// Decide who won round out of 3 tries
+function checkChoices(side, className) {
+  return side.classList.contains(className);
+}
+
 function checkWhoWon() {
   if (computerTotal + playerTotal === 3) {
     removeBtnEvent();
@@ -120,7 +120,6 @@ function checkWhoWon() {
   }
 }
 
-// Generate win or loss msg
 function generateMsg(className, msg) {
   jokeMsg.classList.add(className);
   jokeMsg.innerText = msg;
@@ -134,24 +133,21 @@ function displayDrawMsg() {
   }, 1000);
 }
 
-// Check choices by class names
-function checkChoices(side, className) {
-  return side.classList.contains(className);
+async function getJoke() {
+  try {
+    const response = await fetch('https://api.chucknorris.io/jokes/random');
+    const joke = await response.json();
+
+    chuckJoke.innerText = joke.value;
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
-// Fetch a joke
-function getJoke() {
-  fetch('https://api.chucknorris.io/jokes/random')
-    .then(response => response.json())
-    .then(joke => chuckJoke.innerText = joke.value);
-}
-
-// Setting scores into UI
 function setScore(side, score) {
   side.innerText = score;
 }
 
-// Resetting game score + choices
 function resetGame() {
   playerTotal = 0;
   computerTotal = 0;
@@ -161,15 +157,13 @@ function resetGame() {
   addBtnEvent();
 }
 
-// Remove event listeners from choices btns
 function removeBtnEvent() {
-  choose.forEach(btn => {
+  choose.forEach((btn) => {
     btn.removeEventListener('click', playerChoice);
     btn.style.cursor = 'not-allowed';
   });
 }
 
-// Ask user if he wants to try again
 function tryAgain() {
   const modal = createNode('section', 'modal');
   const div = createNode('div', 'modal__box');
@@ -205,7 +199,6 @@ function tryAgain() {
   });
 }
 
-// Creating node - universal function
 function createNode(node, className) {
   const element = document.createElement(node);
   element.classList.add(className);
